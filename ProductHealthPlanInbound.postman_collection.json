@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "f053f00e-c1c5-4d96-8ec2-9a19579590fc",
+		"name": "ProductHealthPlanInbound",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sysuser00",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "SYSUSER",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://10.40.67.160:6901/ouaf/j_security_check?j_username=SYSUSER&j_password=sysuser00",
+					"protocol": "https",
+					"host": [
+						"10",
+						"40",
+						"67",
+						"160"
+					],
+					"port": "6901",
+					"path": [
+						"ouaf",
+						"j_security_check"
+					],
+					"query": [
+						{
+							"key": "j_username",
+							"value": "SYSUSER"
+						},
+						{
+							"key": "j_password",
+							"value": "sysuser00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"token\", postman.getResponseHeader(\"OUAF-Security-Token\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sysuser00",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "SYSUSER",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://10.40.67.160:6901/ouaf/restSecurityToken",
+					"protocol": "https",
+					"host": [
+						"10",
+						"40",
+						"67",
+						"160"
+					],
+					"port": "6901",
+					"path": [
+						"ouaf",
+						"restSecurityToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddUpdate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"token\", postman.getResponseHeader(\"OUAF-Security-Token\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sysuser00",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "SYSUSER",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "OUAF-Security-Token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"C1-HCProdHlthPlnInbound\": {\r\n    \"bo\": \"C1-HCProdHlthPlnInbound\",\r\n    \"messageType\": \"C1-HCPRODHLTHPLN-INB-MSG-TYPE\",\r\n    \"sourceSystem\": \"NSC\",\r\n    \"externalTransactionId\": \"889977\",\r\n    \"externalBatchId\": \"565656\",\r\n    \"externalSourceId\": \"656565\",\r\n    \"productHealthPlanMessage\": {\r\n     \"healthPlanPricingRuleData\": [\r\n        {\r\n          \"sequence\": 1,\r\n          \"entityIdentifiers\": {\r\n            \"entityIdentifiersList\": [\r\n              {\r\n                \"entityIdentifierType\": \"HLPN\",\r\n                \"entityIdentifierValue\": \"HLPN006\"\r\n              }\r\n            ]\r\n          },\r\n          \"pricingRuleType\": \"AGE_BASED\",\r\n          \"priceItemCd\": \"AGE\",\r\n          \"status\": \"\",\r\n          \"startDate\": \"2020-05-10\",\r\n          \"endDate\": \"2020-05-12\",\r\n          \"rateOption\": \"ZZAGE\",\r\n          \"pricingType\": \"FLAT\",\r\n          \"modifierApplicability\": \"Y\",\r\n          \"modifierMethod\": \"FLAT\",\r\n          \"baseRate\": [\r\n            {\r\n              \"sequence\": 1,\r\n              \"baseFee\": \"200\",\r\n              \"lowerAgeLimit\": 1,\r\n              \"upperAgeLimit\": 20,\r\n              \"pricingParameter\": [\r\n                {\r\n                  \"sequence\": 1,\r\n                  \"parameterCode\": \"TOBAC_USE\",\r\n                  \"parameterValue\": \"Y\"\r\n                }\r\n              ],\r\n              \"modifierInformation\": [\r\n                {\r\n                  \"sequence\": 1,\r\n                  \"parameterCode\": \"GENDER\",\r\n                  \"parameterValue\": \"MALE\",\r\n                  \"rate\": \"12\"\r\n                }\r\n              ]\r\n            }\r\n          ],\r\n          \"characteristics\": {\r\n            \"characteristicsList\": [\r\n              {\r\n                \"characteristicType\": \"ZZ-DISP\",\r\n                \"characteristicValue\": \"TEST\",\r\n                \"effectiveDate\": \"2020-01-12\"\r\n              },\r\n\t\t\t  {\r\n                \"characteristicType\": \"ZZ-BLAGM\",\r\n                \"characteristicValue\": \"DRCT\",\r\n                \"effectiveDate\": \"2020-01-12\"\r\n              }\r\n\t\t\t\r\n            ]\r\n          },\r\n          \"pricingRuleEligibility\": [\r\n            {\r\n              \"sequence\": 1,\r\n              \"priceParmCode\": \"ORACLEEMP\",\r\n              \"priceParmVal\": \"Y\"\r\n            },\r\n\t\t\t{\r\n              \"sequence\": 2,\r\n              \"priceParmCode\": \"MEMSTATE\",\r\n              \"priceParmVal\": \"NY\"\r\n            }\r\n          ]\r\n        },\r\n\t\t{\r\n          \"sequence\": 2,\r\n          \"entityIdentifiers\": {\r\n            \"entityIdentifiersList\": [\r\n              {\r\n                \"entityIdentifierType\": \"HLPN\",\r\n                \"entityIdentifierValue\": \"HLPN006\"\r\n              }\r\n            ]\r\n          },\r\n          \"pricingRuleType\": \"AGE_BASED\",\r\n          \"priceItemCd\": \"AGE\",\r\n          \"status\": \"\",\r\n          \"startDate\": \"2020-05-10\",\r\n          \"endDate\": \"2020-05-12\",\r\n          \"rateOption\": \"ZZAGE\",\r\n          \"pricingType\": \"FLAT\",\r\n          \"modifierApplicability\": \"N\",\r\n          \"modifierMethod\": \"EXPT\",\r\n          \"baseRate\": [\r\n            {\r\n              \"sequence\": 1,\r\n              \"baseFee\": \"500\",\r\n              \"lowerAgeLimit\": 1,\r\n              \"upperAgeLimit\": 50,\r\n              \"pricingParameter\": [\r\n                {\r\n                  \"sequence\": 1,\r\n                  \"parameterCode\": \"TOBAC_USE\",\r\n                  \"parameterValue\": \"Y\"\r\n                }\r\n              ],\r\n              \"modifierInformation\": [\r\n                {\r\n                  \"sequence\": 1,\r\n                  \"parameterCode\": \"SMOKER\",\r\n                  \"parameterValue\": \"N\",\r\n                  \"rate\": \"13.5\"\r\n                }\r\n              ]\r\n            }\r\n          ],\r\n          \"characteristics\": {\r\n            \"characteristicsList\": [\r\n              {\r\n                \"characteristicType\": \"ZZ-DISP\",\r\n                \"characteristicValue\": \"TEST\",\r\n                \"effectiveDate\": \"2020-01-12\"\r\n              },\r\n\t\t\t  {\r\n                \"characteristicType\": \"ZZ-BLAGM\",\r\n                \"characteristicValue\": \"DRCT\",\r\n                \"effectiveDate\": \"2020-01-12\"\r\n              }\r\n\t\t\t\r\n            ]\r\n          },\r\n          \"pricingRuleEligibility\": [\r\n            {\r\n              \"sequence\": 1,\r\n              \"priceParmCode\": \"ORACLEEMP\",\r\n              \"priceParmVal\": \"N\"\r\n            },\r\n\t\t\t{\r\n              \"sequence\": 2,\r\n              \"priceParmCode\": \"MEMSTATE\",\r\n              \"priceParmVal\": \"CA\"\r\n            }\r\n          ]\r\n        },\r\n\t\t {\r\n          \"sequence\": 3,\r\n          \"entityIdentifiers\": {\r\n            \"entityIdentifiersList\": [\r\n              {\r\n                \"entityIdentifierType\": \"HLPN\",\r\n                \"entityIdentifierValue\": \"HLPN006\"\r\n              }\r\n            ]\r\n          },\r\n          \"pricingRuleType\": \"AGE_BASED\",\r\n          \"priceItemCd\": \"AGE\",\r\n          \"status\": \"\",\r\n          \"startDate\": \"2020-05-10\",\r\n          \"endDate\": \"2020-05-12\",\r\n          \"rateOption\": \"ZZAGE\",\r\n          \"pricingType\": \"FLAT\",\r\n          \"modifierApplicability\": \"N\",\r\n          \"modifierMethod\": \"EXPT\",\r\n          \"baseRate\": [\r\n            {\r\n              \"sequence\": 1,\r\n              \"baseFee\": \"50\",\r\n              \"lowerAgeLimit\": 1,\r\n              \"upperAgeLimit\": 30,\r\n              \"pricingParameter\": [\r\n                {\r\n                  \"sequence\": 1,\r\n                  \"parameterCode\": \"TOBAC_USE\",\r\n                  \"parameterValue\": \"Y\"\r\n                }\r\n              ],\r\n              \"modifierInformation\": [\r\n                {\r\n                  \"sequence\": 1,\r\n                  \"parameterCode\": \"SMOKER\",\r\n                  \"parameterValue\": \"N\",\r\n                  \"rate\": \"11\"\r\n                }\r\n              ]\r\n            }\r\n          ],\r\n          \"characteristics\": {\r\n            \"characteristicsList\": [\r\n              {\r\n                \"characteristicType\": \"ZZ-DISP\",\r\n                \"characteristicValue\": \"TEST\",\r\n                \"effectiveDate\": \"2020-01-12\"\r\n              },\r\n\t\t\t  {\r\n                \"characteristicType\": \"ZZ-BLAGM\",\r\n                \"characteristicValue\": \"DRCT\",\r\n                \"effectiveDate\": \"2020-01-12\"\r\n              }\r\n\t\t\t\r\n            ]\r\n          }\r\n        }\r\n\t\t\r\n\t\t\r\n      ]\r\n  }\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://10.40.67.160:6901/ouaf/rest/ouaf/api/iws/C1-HCProdHlthPlnInboundMes/addUpdate",
+					"protocol": "https",
+					"host": [
+						"10",
+						"40",
+						"67",
+						"160"
+					],
+					"port": "6901",
+					"path": [
+						"ouaf",
+						"rest",
+						"ouaf",
+						"api",
+						"iws",
+						"C1-HCProdHlthPlnInboundMes",
+						"addUpdate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	}
+}
